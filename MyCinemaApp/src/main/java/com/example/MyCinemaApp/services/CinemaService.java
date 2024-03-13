@@ -20,23 +20,7 @@ import java.util.concurrent.ExecutionException;
 public class CinemaService {
 
 
-    public static String getResponse(String request) throws ExecutionException, InterruptedException, IOException {
-        AsyncHttpClient client = new DefaultAsyncHttpClient();
-        String requestToServer = "https://moviesdatabase.p.rapidapi.com/titles?" + request;
 
-
-        var response = client.prepare("GET", requestToServer)
-                .setHeader("X-RapidAPI-Key", "e162691449mshfb64da0bbea51c2p115b56jsn6f8fffaaab34")
-                .setHeader("X-RapidAPI-Host", "moviesdatabase.p.rapidapi.com")
-                .execute();
-
-        String data = response.get().getResponseBody();
-        client.close();
-
-        System.out.println(data);
-
-        return data;
-    }
 
     /**
      * a function for processing the json format into a list of movie objects
@@ -79,11 +63,10 @@ public class CinemaService {
 
     public static String getResponse() throws ExecutionException, InterruptedException, IOException {
         AsyncHttpClient client = new DefaultAsyncHttpClient();
-        String request = "https://moviesdatabase.p.rapidapi.com/titles?genre=Drama";
+        String request = "https://api.kinopoisk.dev/v1.3/movie";
 
         var response = client.prepare("GET", request)
-                .setHeader("X-RapidAPI-Key", "e162691449mshfb64da0bbea51c2p115b56jsn6f8fffaaab34")
-                .setHeader("X-RapidAPI-Host", "moviesdatabase.p.rapidapi.com")
+                .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
                 .execute();
 //                .toCompletableFuture()
 //                .thenAccept(System.out::println)
