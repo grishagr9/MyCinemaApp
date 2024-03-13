@@ -61,8 +61,8 @@ class CinemaServiceTest {
     @Test
     void testRequestsRandom() throws IOException, ExecutionException, InterruptedException, ParseException {
         String name = "Godfather";
-        var response = CinemaAPI.getFilmByName(name);
-        var parseResponse = ParserJSON.parse(response);
+        var response = CinemaAPI.getRandomFilm();
+        var parseResponse = ParserJSON.parseOneFilm(response);
 
         System.out.println(parseResponse);
     }
