@@ -17,53 +17,96 @@ import static org.junit.jupiter.api.Assertions.*;
 class CinemaServiceTest {
 
     @Test
-    void getResponse() throws IOException, ExecutionException, InterruptedException, ParseException {
+    void givenFileWithJSON_whenParseJSON_thenReturnDTOClass() throws IOException, ExecutionException, InterruptedException, ParseException {
+        //given
         String fileName = "C:\\Users\\Grisha\\IdeaProjects\\MyCinemaApp\\MyCinemaApp\\src\\test\\java\\com\\example\\MyCinemaApp\\services\\a.txt";
-
-        // Чтение всего файла в одну строку
         String content = null;
+
+        //when
         try {
             content = new String(Files.readAllBytes(Paths.get(fileName)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(content);
 
+        //then
+        System.out.println(content);
         System.out.println(ParserJSON.parse(content));
     }
 
     @Test
-    void testRequestsByNameEng() throws IOException, ExecutionException, InterruptedException, ParseException {
+    void givenEngName_whenParseFromAPI_thenReturnDTOClassObj() throws IOException, ExecutionException, InterruptedException, ParseException {
+        //given
         String name = "Godfather";
+
+        //when
         var response = CinemaAPI.getFilmByName(name);
         var parseResponse = ParserJSON.parse(response);
 
+        //then
         System.out.println(parseResponse);
     }
 
     @Test
-    void testRequestsByNameRus() throws IOException, ExecutionException, InterruptedException, ParseException {
+    void givenRusName_whenParseFromAPI_thenReturnDTOClassObj() throws IOException, ExecutionException, InterruptedException, ParseException {
+        //given
         String name = "Человек паук";
+
+        //when
         var response = CinemaAPI.getFilmByName(name);
         var parseResponse = ParserJSON.parse(response);
 
+        //then
         System.out.println(parseResponse);
     }
 
     @Test
-    void testRequestsByRating() throws IOException, ExecutionException, InterruptedException, ParseException {
-        var response = CinemaAPI.getFilmByRating(8,10);
+    void givenIntervalRating_whenParseFromAPI_thenReturnDTOClassObj() throws IOException, ExecutionException, InterruptedException, ParseException {
+       //given
+        int start = 8;
+        int end = 10;
+
+        //when
+        var response = CinemaAPI.getFilmByRating(start, end);
         var parseResponse = ParserJSON.parse(response);
 
+        //then
         System.out.println(parseResponse);
     }
 
     @Test
-    void testRequestsRandom() throws IOException, ExecutionException, InterruptedException, ParseException {
-        String name = "Godfather";
+    void givenMinRating_whenParseFromAPI_thenReturnDTOClassObj() throws IOException, ExecutionException, InterruptedException, ParseException {
+        //given
+        int start = 7;
+
+        //when
+        var response = CinemaAPI.getFilmByRating(start);
+        var parseResponse = ParserJSON.parse(response);
+
+        //then
+        System.out.println(parseResponse);
+    }
+
+    @Test
+    void givenRandomFilm_whenParseFromAPI_thenReturnDTOClassObj() throws IOException, ExecutionException, InterruptedException, ParseException {
+        //when
         var response = CinemaAPI.getRandomFilm();
         var parseResponse = ParserJSON.parseOneFilm(response);
 
+        //then
+        System.out.println(parseResponse);
+    }
+
+    @Test
+    void givenGenreName_whenParseFromAPI_thenReturnDTOClassObj() throws IOException, ExecutionException, InterruptedException, ParseException {
+        //given
+        String genre = "криминал";
+
+        //when
+        var response = CinemaAPI.getFilmByGenre(genre);
+        var parseResponse = ParserJSON.parse(response);
+
+        //then
         System.out.println(parseResponse);
     }
 }
