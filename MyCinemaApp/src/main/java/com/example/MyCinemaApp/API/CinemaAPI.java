@@ -117,6 +117,14 @@ public class CinemaAPI {
         return data;
     }
 
+    /**
+     * Поиск фильма по жанру
+     * @param genre жанр
+     * @return список подходящих фильмов
+     * @throws IOException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public static String getFilmByGenre(String genre) throws IOException, ExecutionException, InterruptedException {
         AsyncHttpClient client = new DefaultAsyncHttpClient();
         String encodedString = URLEncoder.encode(genre, "UTF-8");

@@ -1,81 +1,142 @@
 package com.example.MyCinemaApp.services;
 
-import com.example.MyCinemaApp.dto.CinemaDto;
-import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.DefaultAsyncHttpClient;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import com.example.MyCinemaApp.API.CinemaAPI;
+import com.example.MyCinemaApp.API.ParserJSON;
+import com.example.MyCinemaApp.dto.CinemaNameDto;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class CinemaService {
 
-
-
-
-    /**
-     * a function for processing the json format into a list of movie objects
-     * @param response a string in the JSON format of the server response
-     * @return List of movie objects
-     * @throws ParseException
-     */
-    public List<CinemaDto> parsingResponse(String response) throws ParseException {
-        List<CinemaDto> cinemaList = new ArrayList<>();
-        JSONObject object = (JSONObject) new JSONParser().parse(response);
-        Iterator resultSetIterator = ((JSONArray) object.get("results")).iterator();
-
-        while(resultSetIterator.hasNext()){
-            CinemaDto cinemaDto = new CinemaDto();
-            JSONObject item =(JSONObject) resultSetIterator.next();
-            JSONObject titleText = (JSONObject) item.get("titleText");
-            JSONObject titleType = (JSONObject) item.get("titleType");
-            JSONObject releaseYear = (JSONObject) item.get("releaseYear");
-            JSONObject primaryImage = (JSONObject) item.get("primaryImage");
-
-            cinemaDto.setId( (String) item.get("id"));
-            if(primaryImage != null) {
-                cinemaDto.setPhoto((String) primaryImage.get("url"));
-            }
-            if(titleText != null) {
-                cinemaDto.setTitle((String) titleText.get("text"));
-            }
-            if(titleType != null) {
-                cinemaDto.setIsSeries((Boolean) titleType.get("isSeries"));
-            }
-            if(releaseYear != null) {
-                cinemaDto.setReleaseYear((Long) releaseYear.get("year"));
-            }
-
-            cinemaList.add(cinemaDto);
+    public List<CinemaNameDto> getFilmsByName(String name) {
+        if(name == null){
+            return null;
         }
 
-        return cinemaList;
+        String responseFromAPI = null;
+        try {
+            responseFromAPI = CinemaAPI.getFilmByName(name);
+        } catch (ExecutionException e) {
+            System.err.println(e.getMessage() + " (ExecutionException) " + e.getCause());
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage() + " (InterruptedException) " + e.getCause());
+        } catch (IOException e) {
+            System.err.println(e.getMessage() + " (IOException) " + e.getCause());;
+        }
+
+        List<CinemaNameDto> result = null;
+        try {
+            result = ParserJSON.parse(responseFromAPI);
+        } catch (ParseException e) {
+            System.err.println("ParseException");
+        }
+
+        return result;
     }
 
-    public static String getResponse() throws ExecutionException, InterruptedException, IOException {
-        AsyncHttpClient client = new DefaultAsyncHttpClient();
-        String request = "https://api.kinopoisk.dev/v1.3/movie";
+    public List<CinemaNameDto> getFilmsByGenre(String genre) {
+        if(genre == null){
+            return null;
+        }
 
-        var response = client.prepare("GET", request)
-                .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
-                .execute();
-//                .toCompletableFuture()
-//                .thenAccept(System.out::println)
-//                .join();
-        String data = response.get().getResponseBody();
-        client.close();
+        String responseFromAPI = null;
+        try {
+            responseFromAPI = CinemaAPI.getFilmByGenre(genre);
+        } catch (ExecutionException e) {
+            System.err.println(e.getMessage() + " (ExecutionException) " + e.getCause());
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage() + " (InterruptedException) " + e.getCause());
+        } catch (IOException e) {
+            System.err.println(e.getMessage() + " (IOException) " + e.getCause());;
+        }
 
-        System.out.println(data);
+        List<CinemaNameDto> result = null;
+        try {
+            result = ParserJSON.parse(responseFromAPI);
+        } catch (ParseException e) {
+            System.err.println("ParseException");
+        }
 
-        return data;
+        return result;
+    }
+
+    public List<CinemaNameDto> getFilmByRating(int start, int end){
+        if(start < 0 || end < 0 || end < start || start > 10){
+            return null;
+        }
+
+        String responseFromAPI = null;
+        try {
+            responseFromAPI = CinemaAPI.getFilmByRating(end, start);
+        } catch (ExecutionException e) {
+            System.err.println(e.getMessage() + " (ExecutionException) " + e.getCause());
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage() + " (InterruptedException) " + e.getCause());
+        } catch (IOException e) {
+            System.err.println(e.getMessage() + " (IOException) " + e.getCause());;
+        }
+
+        List<CinemaNameDto> result = null;
+        try {
+            result = ParserJSON.parse(responseFromAPI);
+        } catch (ParseException e) {
+            System.err.println("ParseException");
+        }
+
+        return result;
+    }
+
+    public List<CinemaNameDto> getFilmByRating(int start){
+        if(start < 0 || start > 10){
+            return null;
+        }
+
+        String responseFromAPI = null;
+        try {
+            responseFromAPI = CinemaAPI.getFilmByRating(start);
+        } catch (ExecutionException e) {
+            System.err.println(e.getMessage() + " (ExecutionException) " + e.getCause());
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage() + " (InterruptedException) " + e.getCause());
+        } catch (IOException e) {
+            System.err.println(e.getMessage() + " (IOException) " + e.getCause());;
+        }
+
+        List<CinemaNameDto> result = null;
+        try {
+            result = ParserJSON.parse(responseFromAPI);
+        } catch (ParseException e) {
+            System.err.println("ParseException");
+        }
+
+        return result;
+    }
+
+    public CinemaNameDto getRandomFilm(){
+        String responseFromAPI = null;
+        try {
+            responseFromAPI = CinemaAPI.getRandomFilm();
+        } catch (ExecutionException e) {
+            System.err.println(e.getMessage() + " (ExecutionException) " + e.getCause());
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage() + " (InterruptedException) " + e.getCause());
+        } catch (IOException e) {
+            System.err.println(e.getMessage() + " (IOException) " + e.getCause());;
+        }
+
+        CinemaNameDto result = null;
+        try {
+            result = ParserJSON.parseOneFilm(responseFromAPI).get(0);
+        } catch (ParseException e) {
+            System.err.println("ParseException");
+        }
+
+        return result;
     }
 }
