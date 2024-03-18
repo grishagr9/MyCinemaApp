@@ -41,6 +41,7 @@ class CinemaServiceTest {
 
         //when
         var response = CinemaAPI.getFilmByName(name);
+        System.out.println(response);
         var parseResponse = ParserJSON.parse(response);
 
         //then

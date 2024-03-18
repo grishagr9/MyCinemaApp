@@ -21,7 +21,7 @@ public class CinemaAPI {
     public static String getRandomFilm() throws ExecutionException, InterruptedException, IOException {
         AsyncHttpClient client = new DefaultAsyncHttpClient();
         String requestToServer = "https://api.kinopoisk.dev/v1.3/movie/random";
-
+        //todo можно ли несколько
 
         var response = client.prepare("GET", requestToServer)
                 .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
