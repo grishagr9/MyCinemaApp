@@ -37,7 +37,7 @@ public class Cinema {
             joinColumns = @JoinColumn(name = "cinema_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> userSet;
+    private Set<Consumer> userSet;
 
     private String description;
 

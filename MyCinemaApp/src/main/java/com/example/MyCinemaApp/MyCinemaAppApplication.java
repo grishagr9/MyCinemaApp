@@ -1,5 +1,7 @@
 package com.example.MyCinemaApp;
 
+import com.example.MyCinemaApp.entity.Cinema;
+import com.example.MyCinemaApp.repositories.CinemaRepository;
 import com.example.MyCinemaApp.services.CinemaService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

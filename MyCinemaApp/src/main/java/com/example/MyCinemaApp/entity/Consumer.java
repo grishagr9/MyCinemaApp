@@ -11,10 +11,10 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "consumer")
 @ToString
 @NoArgsConstructor
-public class User {
+public class Consumer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

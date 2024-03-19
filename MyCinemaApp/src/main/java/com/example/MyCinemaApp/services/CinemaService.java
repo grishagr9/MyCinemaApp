@@ -3,6 +3,9 @@ package com.example.MyCinemaApp.services;
 import com.example.MyCinemaApp.API.CinemaAPI;
 import com.example.MyCinemaApp.API.ParserJSON;
 import com.example.MyCinemaApp.dto.CinemaNameDto;
+import com.example.MyCinemaApp.entity.Cinema;
+import com.example.MyCinemaApp.repositories.CinemaRepository;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +15,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
+@RequiredArgsConstructor
 public class CinemaService {
+
+    private final CinemaRepository cinemaRepository;
 
     public List<CinemaNameDto> getFilmsByName(String name) {
         if(name == null){
@@ -138,5 +144,10 @@ public class CinemaService {
         }
 
         return result;
+    }
+
+    public boolean addCinema(Cinema cinema){
+        cinemaRepository.save(cinema);
+        return true;
     }
 }
