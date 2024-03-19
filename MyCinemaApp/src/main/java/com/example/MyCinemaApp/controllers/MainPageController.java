@@ -16,4 +16,10 @@ public class MainPageController {
         Logger.getLogger(MainPageController.class.getName()).info("main Page class start work");
         return "index";
     }
+
+    @GetMapping("/genres")
+    public String genresPage(Model model){
+        Logger.getLogger(MainPageController.class.getName()).info("main Page class start work");
+        return "index";
+    }
 }
