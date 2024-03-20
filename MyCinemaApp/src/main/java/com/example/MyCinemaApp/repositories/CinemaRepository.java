@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CinemaRepository extends JpaRepository<Cinema, Long> {
     Cinema findCinemaById(Long id);
+
+    Cinema findCinemaByName(String name);
 }
