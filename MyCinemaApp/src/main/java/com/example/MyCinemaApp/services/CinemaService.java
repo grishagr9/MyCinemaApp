@@ -148,6 +148,9 @@ public class CinemaService {
         return result;
     }
 
+
+
+
     public boolean addCinema(Cinema cinema){
         cinemaRepository.save(cinema);
         return true;
@@ -174,4 +177,6 @@ public class CinemaService {
 
         return result;
     }
+
+
 }

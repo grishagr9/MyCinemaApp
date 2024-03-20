@@ -36,4 +36,20 @@ public class PopularService {
             return result;
         }else return Data.popular;
     }
+
+    public List<CinemaNameDto> getNewCinemaByRating(int i) {
+        List<CinemaNameDto> result = new ArrayList<>();
+        try {
+            result = ParserJSON.parse(CinemaAPI.getFilmByRating(i));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
 }

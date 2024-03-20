@@ -57,13 +57,13 @@
         <div class="wrap">
             <nav class="menuModal" id="navigate">
                 <ul class="menu menu_main">
-                    <li class="menu-item"><a class="menu-link" href="index.html" th:href="@{/}"
+                    <li class="menu-item menu-item_ACTIVE"><a class="menu-link" href="index.html" th:href="@{/}"
                     >Главная</a>
                     </li>
                     <li class="menu-item"><a class="menu-link" href="genres.html" th:href="@{/genres}"
                     >Жанры</a>
                     </li>
-                    <li  class="menu-item menu-item_ACTIVE"><a class="menu-link" href="nove.html" th:href="@{/popular}"
+                    <li class="menu-item"><a class="menu-link" href="nove.html" th:href="@{/popular}"
                     >Топ фильмы</a>
                     </li>
                     <li class="menu-item"><a class="menu-link" href="popular.html"
@@ -77,14 +77,28 @@
         </div>
     </div>
 </header>
-<div class="Middle">
+<div class="Middle Middle_search">
     <div class="wrap">
         <main class="Middle-main">
-            <h1 class="Middle-title">Фильмы с самым высоким рейтингом
+            <h1 class="Middle-title">Поиск
             </h1>
             <div class="Section">
-                <div class="Tags Tags_genres">
-                    <div class="Tags Tags_embed" th:each="cinema : ${popularCinema}">
+                <div class="search">
+                    <form class="form form_search" action="#" method="post" data-searchlimit="5">
+                        <input class="search-input" id="querypage" name="querypage" type="text"
+                               placeholder="Search over 30 million book titles" th:value="${searchWordDto.example}" value="Техника"/>
+                        <button class="search-button" type="submit" name="searchpage" id="searchpage" th:action="@{/search}">Поиск
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="Section Section_close">
+                <header class="Section-header">
+                    <h2 class="Section-title Middle-searchHeader" th:text="${'Найдено фильмов: ' + searchResults.size()}">Найдено 4000 книг
+                    </h2>
+                </header>
+                <div class="Cards Cards_search Cards_refresh">
+                    <div class="Tags Tags_embed" th:each="cinema : ${searchResults}">
                         <div class="Card"><a class="Card-picture" ><img
                                 th:src="${cinema.posterPhoto}"  alt="card.jpg"/>
                             <div class="Card-sale" th:text="${cinema.internalRating}+' рейтинг'">30% скидка
@@ -97,8 +111,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#" th:href="@{/popular/add}" data-refreshshow="genre" data-refreshoffset="10" data-refreshlimit="20" data-refreshid="1020">Показать еще</a>
                     </div>
                 </div>
             </div>

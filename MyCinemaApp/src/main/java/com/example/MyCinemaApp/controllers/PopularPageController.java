@@ -30,4 +30,12 @@ public class PopularPageController {
         return "popular";
     }
 
+    @GetMapping("/popular/add")
+    public String genresPageAdd(Model model){
+        List<CinemaNameDto> transferDataPopular = popularCinema();
+        transferDataPopular.addAll(popularService.getNewCinemaByRating(9));
+        model.addAttribute("popularCinema", transferDataPopular);
+        return "popular";
+    }
+
 }
