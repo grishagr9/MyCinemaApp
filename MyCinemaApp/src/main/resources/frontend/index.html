@@ -34,9 +34,9 @@
                             <form class="form form_search" action="#" method="post" data-searchlimit="20"
                                   th:object="${searchWordDto}">
                                 <input class="search-input" id="query" name="query" type="text"
-                                       placeholder="Search over 30 million book titles"
+                                       placeholder="Search over 30 million film titles"
                                         th:field="*{example}" value=""  />
-                                <button class="search-button" type="submit" name="search" id="search" th:action="@{/search}" >Поиск
+                                <button class="search-button" th:method="POST" type="submit" name="search" id="search" th:action="@{/search}" >Поиск
                                 </button>
                             </form>
                         </div>

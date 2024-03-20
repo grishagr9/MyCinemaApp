@@ -110,5 +110,13 @@ class CinemaServiceTest {
         //then
         System.out.println(parseResponse);
     }
+
+    @Test
+    void givenYear_whenParse_thenReturnNewCinema() throws IOException, ExecutionException, InterruptedException, ParseException {
+        var response = CinemaAPI.getRecentFilm();
+        var parse = ParserJSON.parse(response);
+
+        System.out.println(parse);
+    }
 }
 

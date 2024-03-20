@@ -1,5 +1,6 @@
 package com.example.MyCinemaApp.API;
 
+import com.example.MyCinemaApp.config.DataAPI;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.springframework.stereotype.Component;
@@ -7,7 +8,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Calendar;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 @Component
 public class CinemaAPI {
@@ -27,7 +32,7 @@ public class CinemaAPI {
         //todo можно ли несколько
 
         var response = client.prepare("GET", requestToServer)
-                .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
+                .setHeader("X-API-KEY", DataAPI.API_KEY)
                 .execute();
 
         String data = response.get().getResponseBody();
@@ -54,7 +59,7 @@ public class CinemaAPI {
 
 
         var response = client.prepare("GET", requestToServer)
-                .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
+                .setHeader("X-API-KEY", DataAPI.API_KEY)
                 .execute();
 
         String data = response.get().getResponseBody();
@@ -85,7 +90,7 @@ public class CinemaAPI {
         }
 
         var response = client.prepare("GET", requestToServer)
-                .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
+                .setHeader("X-API-KEY", DataAPI.API_KEY)
                 .execute();
 
         String data = response.get().getResponseBody();
@@ -115,7 +120,7 @@ public class CinemaAPI {
         }
 
         var response = client.prepare("GET", requestToServer)
-                .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
+                .setHeader("X-API-KEY", DataAPI.API_KEY)
                 .execute();
 
         String data = response.get().getResponseBody();
@@ -142,7 +147,7 @@ public class CinemaAPI {
 
 
         var response = client.prepare("GET", requestToServer)
-                .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
+                .setHeader("X-API-KEY", DataAPI.API_KEY)
                 .execute();
 
         String data = response.get().getResponseBody();
@@ -153,13 +158,25 @@ public class CinemaAPI {
         return data;
     }
 
+    /**
+     * поиск фильмов нынешнего года, получаем рандомную сраницу поиска с 10 фильмами
+     * @return список подходящих фильмов
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public static String getRecentFilm() throws ExecutionException, InterruptedException, IOException {
         AsyncHttpClient client = new DefaultAsyncHttpClient();
         //для получения большего количества результатов изменить лимит (max 250)
-        String requestToServer = "https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&year=2024";
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        Random rand = new Random();
+        int page = rand.nextInt(10) + 1;
+
+        String requestToServer = "https://api.kinopoisk.dev/v1.4/movie?page=" + page + "&limit=10&year=" + year;
 
         var response = client.prepare("GET", requestToServer)
-                .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
+                .setHeader("X-API-KEY", DataAPI.API_KEY)
                 .execute();
 
         String data = response.get().getResponseBody();
