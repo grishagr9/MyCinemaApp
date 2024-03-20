@@ -36,7 +36,11 @@ public class GenrePageController {
     @GetMapping(value ="/genres/{nameGenre}")
     public String getGenrePage(@PathVariable(value = "nameGenre",required = false)String nameGenre, Model model){
         Genre genre = genreService.getGenreByName(nameGenre);
-        model.addAttribute("cinemaGenreResult", cinemaService.toDtos(genreService.getAllCinemaByNameGenre(nameGenre)));
+        var cinemasByGenre = cinemaService.toDtos(genreService.getAllCinemaByNameGenre(nameGenre));
+        if(cinemasByGenre.size() < 10){
+            cinemasByGenre = genreService.getFilmByGenreName(nameGenre);
+        }
+        model.addAttribute("cinemaGenreResult", cinemasByGenre);
         model.addAttribute("currentGenre",genre);
 
         return "genre_slug";

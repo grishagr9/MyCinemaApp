@@ -1,5 +1,9 @@
 package com.example.MyCinemaApp.services;
 
+import com.example.MyCinemaApp.API.CinemaAPI;
+import com.example.MyCinemaApp.API.ParserJSON;
+import com.example.MyCinemaApp.data.Data;
+import com.example.MyCinemaApp.dto.CinemaNameDto;
 import com.example.MyCinemaApp.dto.GenresDto;
 import com.example.MyCinemaApp.entity.Cinema;
 import com.example.MyCinemaApp.entity.Genre;
@@ -8,12 +12,15 @@ import com.example.MyCinemaApp.repositories.Cinema2GenreRepository;
 import com.example.MyCinemaApp.repositories.CinemaRepository;
 import com.example.MyCinemaApp.repositories.GenreRepository;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 @Service
@@ -66,7 +73,6 @@ public class GenreService {
         for (Cinema2Genre id: cinemasId) {
             cinemas.add(cinemaRepository.findCinemaById(id.getCinemaId()));
         }
-
         return cinemas;
     }
 
@@ -75,5 +81,30 @@ public class GenreService {
         Logger.getLogger(GenreService.class.getSimpleName()).info(genre + " id = " + res);
 
         return res == null ? 0 : res.getId();
+    }
+
+    public List<CinemaNameDto> getFilmByGenreName(String name){
+        List<CinemaNameDto> res = new ArrayList<>();
+        if(Data.cinemaGenre == null){
+            Data.cinemaGenre = new HashMap<>();
+        }
+        if(Data.cinemaGenre.get(name) == null){
+            try {
+                res =  ParserJSON.parse(CinemaAPI.getFilmByGenre(name));
+                Data.cinemaGenre.put(name, res);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            res = Data.cinemaGenre.get(name);
+        }
+
+        return res;
     }
 }
