@@ -2,15 +2,18 @@ package com.example.MyCinemaApp.API;
 
 import com.example.MyCinemaApp.dto.CinemaDto;
 import com.example.MyCinemaApp.dto.CinemaNameDto;
+import jakarta.persistence.Column;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Component
 public class ParserJSON {
 
     public static List<CinemaNameDto> parse(String response) throws ParseException {

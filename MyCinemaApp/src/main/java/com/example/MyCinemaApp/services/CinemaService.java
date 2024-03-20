@@ -4,6 +4,7 @@ import com.example.MyCinemaApp.API.CinemaAPI;
 import com.example.MyCinemaApp.API.ParserJSON;
 import com.example.MyCinemaApp.dto.CinemaNameDto;
 import com.example.MyCinemaApp.entity.Cinema;
+import com.example.MyCinemaApp.entity.Genre;
 import com.example.MyCinemaApp.repositories.CinemaRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -149,5 +151,27 @@ public class CinemaService {
     public boolean addCinema(Cinema cinema){
         cinemaRepository.save(cinema);
         return true;
+    }
+
+    public List<CinemaNameDto> toDtos(List<Cinema> allCinemaByNameGenre) {
+        List<CinemaNameDto> res = new ArrayList<>();
+        for(Cinema cinema: allCinemaByNameGenre){
+            res.add(toDTO(cinema));
+        }
+
+        return res;
+    }
+
+    private CinemaNameDto toDTO(Cinema cinema) {
+        CinemaNameDto result = new CinemaNameDto();
+
+        result.setInternalRating(cinema.getInternalRating());
+        result.setPosterPhoto(cinema.getPosterPhoto());
+        result.setGenres(cinema.getGenreSet().stream().map(Genre::getName).toList());
+        result.setDescription(cinema.getDescription());
+        result.setName(cinema.getName());
+        result.setId(cinema.getKp_id());
+
+        return result;
     }
 }

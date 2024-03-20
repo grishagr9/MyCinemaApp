@@ -2,14 +2,17 @@ package com.example.MyCinemaApp.API;
 
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
+@Component
 public class CinemaAPI {
 
+    private static int countPageRating = 1;
 
     /**
      * Получение случайного тайтла из базы.
@@ -75,8 +78,11 @@ public class CinemaAPI {
         AsyncHttpClient client = new DefaultAsyncHttpClient();
         String request = start + "-" + end;
         //для получения большего количества результатов изменить лимит (max 250)
-        String requestToServer = "https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&rating.kp=" + request;
-
+        String requestToServer = "https://api.kinopoisk.dev/v1.4/movie?page="+countPageRating+"&limit=10&rating.kp=" + request;
+        countPageRating++;
+        if(countPageRating >= 10){
+            countPageRating = 1;
+        }
 
         var response = client.prepare("GET", requestToServer)
                 .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
@@ -102,8 +108,11 @@ public class CinemaAPI {
         AsyncHttpClient client = new DefaultAsyncHttpClient();
         String request = start + "-" + 10;
         //для получения большего количества результатов изменить лимит (max 250)
-        String requestToServer = "https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&rating.kp=" + request;
-
+        String requestToServer = "https://api.kinopoisk.dev/v1.4/movie?page=" + countPageRating + "&limit=10&rating.kp=" + request;
+        countPageRating++;
+        if(countPageRating >= 10){
+            countPageRating = 1;
+        }
 
         var response = client.prepare("GET", requestToServer)
                 .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
@@ -140,6 +149,21 @@ public class CinemaAPI {
         client.close();
 
         // System.out.println(data);
+
+        return data;
+    }
+
+    public static String getRecentFilm() throws ExecutionException, InterruptedException, IOException {
+        AsyncHttpClient client = new DefaultAsyncHttpClient();
+        //для получения большего количества результатов изменить лимит (max 250)
+        String requestToServer = "https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&year=2024";
+
+        var response = client.prepare("GET", requestToServer)
+                .setHeader("X-API-KEY", "1JA084P-96XMR59-HC5RND9-KT65KVE")
+                .execute();
+
+        String data = response.get().getResponseBody();
+        client.close();
 
         return data;
     }

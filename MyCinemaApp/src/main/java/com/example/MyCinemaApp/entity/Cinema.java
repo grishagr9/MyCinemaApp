@@ -44,4 +44,6 @@ public class Cinema {
     private Double internalRating;
 
     private String posterPhoto;
+
+    private Integer year;
 }

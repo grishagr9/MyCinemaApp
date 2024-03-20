@@ -18,8 +18,10 @@ public class Cinema2Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long cinema_id;
+    @Column(name = "cinema_id")
+    private Long cinemaId;
 
-    private Long genre_id;
+    @Column(name = "genre_id")
+    private Long genreId;
 
 }
