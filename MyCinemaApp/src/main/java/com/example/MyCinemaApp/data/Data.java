@@ -11,4 +11,6 @@ public class Data {
     public static List<CinemaNameDto> popular;
 
     public static Map<String, List<CinemaNameDto>> cinemaGenre;
+
+
 }
