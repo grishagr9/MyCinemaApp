@@ -7,6 +7,7 @@ import com.example.MyCinemaApp.errs.EmptySearchException;
 import com.example.MyCinemaApp.services.CinemaService;
 import com.example.MyCinemaApp.services.MainPageService;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 @Controller
@@ -27,7 +30,7 @@ public class MainPageController {
     private final CinemaService cinemaService;
 
     @ModelAttribute("filmRecent")
-    public List<CinemaNameDto> filmRecent(){
+    public List<CinemaNameDto> filmRecent() throws IOException, ParseException, ExecutionException, InterruptedException {
         return mainPageService.getAllFilm();
     }
 
@@ -42,7 +45,7 @@ public class MainPageController {
     }
 
     @GetMapping("/")
-    public String mainPage(Model model){
+    public String mainPage(Model model) throws IOException, ParseException, ExecutionException, InterruptedException {
         Logger.getLogger(MainPageController.class.getName()).info("main Page class start work");
         model.addAttribute("filmRecent", filmRecent());
         return "index";

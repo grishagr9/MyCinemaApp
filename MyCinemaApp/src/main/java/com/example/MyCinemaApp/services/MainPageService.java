@@ -56,7 +56,14 @@ public class MainPageService {
         }
     }
 
-    public List<CinemaNameDto> getAllFilm(){
-        return cinemaService.toDtos(cinemaRepository.findAll().stream().limit(10).toList());
+    public List<CinemaNameDto> getAllFilm() {
+        var cinemas = cinemaService.toDtos(cinemaRepository.findAll().stream().limit(10).toList());
+        if (cinemas.isEmpty()){
+//            String recentFilm = CinemaAPI.getRecentFilm();
+//            cinemas = ParserJSON.parse(recentFilm);
+            fillRecentFilm();
+            cinemas = cinemaService.toDtos(cinemaRepository.findAll().stream().limit(10).toList());
+        }
+        return cinemas;
     }
 }

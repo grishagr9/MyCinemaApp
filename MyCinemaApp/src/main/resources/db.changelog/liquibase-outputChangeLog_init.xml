@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="Grisha (generated)" id="1712725478187-1">
+        <createSequence sequenceName="actor_id_seq"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-2">
+        <createSequence sequenceName="cinema2genre_id_seq"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-3">
+        <createSequence sequenceName="cinema_id_seq"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-4">
+        <createSequence sequenceName="consumer_id_seq"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-5">
+        <createSequence sequenceName="favorite_id_seq"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-6">
+        <createSequence sequenceName="genre_id_seq"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-7">
+        <createSequence sequenceName="ingredients_id_seq"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-8">
+        <createSequence sequenceName="recipes_id_seq"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-9">
+        <createTable tableName="actor">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="actor_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-10">
+        <createTable tableName="cinema">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="cinema_pkey"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="internal_rating" type="FLOAT8"/>
+            <column name="kp_id" type="BIGINT"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="poster_photo" type="VARCHAR(255)"/>
+            <column name="year" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-11">
+        <createTable tableName="cinema2genre">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="cinema2genre_pkey"/>
+            </column>
+            <column name="cinema_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="genre_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-12">
+        <createTable tableName="consumer">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="consumer_pkey"/>
+            </column>
+            <column name="hash" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-13">
+        <createTable tableName="favorite">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="favorite_pkey"/>
+            </column>
+            <column name="cinema_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-14">
+        <createTable tableName="genre">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="genre_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-15">
+        <createTable tableName="ingredients">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="ingredients_pkey"/>
+            </column>
+            <column name="recipe_id" type="INT"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-16">
+        <createTable tableName="recipes">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="recipes_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-17">
+        <addForeignKeyConstraint baseColumnNames="cinema_id" baseTableName="cinema2genre" constraintName="fk636mc46j881mgsm6aa9k7ftmq" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cinema"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-18">
+        <addForeignKeyConstraint baseColumnNames="cinema_id" baseTableName="favorite" constraintName="fkhbad6b7rjg5d17lsw4oo3m1k4" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cinema"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-19">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="favorite" constraintName="fkile76nwl1e5whf9an8liasc24" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="consumer"/>
+    </changeSet>
+    <changeSet author="Grisha (generated)" id="1712725478187-20">
+        <addForeignKeyConstraint baseColumnNames="genre_id" baseTableName="cinema2genre" constraintName="fkpebj7b27k9dcfml7j6vbmj9ic" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="genre"/>
+    </changeSet>
+</databaseChangeLog>

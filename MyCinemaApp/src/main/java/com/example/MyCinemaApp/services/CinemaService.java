@@ -170,7 +170,10 @@ public class CinemaService {
 
         result.setInternalRating(cinema.getInternalRating());
         result.setPosterPhoto(cinema.getPosterPhoto());
-        result.setGenres(cinema.getGenreSet().stream().map(Genre::getName).toList());
+        var genreSet = cinema.getGenreSet();
+        if(genreSet!=null) {
+            result.setGenres(genreSet.stream().map(Genre::getName).toList());
+        }
         result.setDescription(cinema.getDescription());
         result.setName(cinema.getName());
         result.setId(cinema.getKp_id());

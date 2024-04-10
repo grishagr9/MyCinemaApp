@@ -31,6 +31,8 @@ public class GenreService {
     private final Cinema2GenreRepository cinema2GenreRepository;
     private final CinemaRepository cinemaRepository;
 
+    private static long id = 1;
+
     public void add(String name){
         Genre genre = new Genre();
         genre.setName(name);
@@ -39,6 +41,11 @@ public class GenreService {
 
     public Map<Long, GenresDto> getAllGenres() {
         final List<Genre> genreList = genreRepository.findAll();
+        if(genreList.isEmpty()){
+            for(String nameGenre: Data.genres){
+                genreList.add(toGenre(nameGenre));
+            }
+        }
         return toDtoList(genreList);
     }
 
@@ -58,6 +65,18 @@ public class GenreService {
         }
         else{
             return new GenresDto();
+        }
+    }
+
+    private Genre toGenre(String genreName){
+        if(genreName != null){
+            Genre genre = new Genre();
+            genre.setName(genreName);
+            genre.setId(id++);
+            return genre;
+        }
+        else{
+            return new Genre();
         }
     }
 
