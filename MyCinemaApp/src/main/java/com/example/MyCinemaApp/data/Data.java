@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class Data {
@@ -22,4 +23,6 @@ public class Data {
             "ужасы",
             "фантастика"
     ));
+
+    public static String JWTtoken = UUID.randomUUID().toString();
 }
