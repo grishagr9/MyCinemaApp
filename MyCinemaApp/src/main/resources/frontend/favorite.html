@@ -80,11 +80,11 @@
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
-            <h1 class="Middle-title">Фильмы с самым высоким рейтингом
+            <h1 class="Middle-title">Ваши любимые фильмы
             </h1>
             <div class="Section">
                 <div class="Tags Tags_genres">
-                    <div class="Tags Tags_embed" th:each="cinema : ${popularCinema}">
+                    <div class="Tags Tags_embed" th:each="cinema : ${favoriteCinema}">
                         <div class="Card"><a class="Card-picture" ><img
                                 th:src="${cinema.posterPhoto}"  alt="card.jpg"/>
                             <div class="Card-sale" th:text="${cinema.internalRating}+' рейтинг'">30% скидка
@@ -97,8 +97,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#" th:href="@{/popular/add}" data-refreshshow="genre" data-refreshoffset="10" data-refreshlimit="20" data-refreshid="1020">Показать еще</a>
                     </div>
                 </div>
             </div>

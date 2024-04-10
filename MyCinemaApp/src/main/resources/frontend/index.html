@@ -69,10 +69,10 @@
                     <li class="menu-item"><a class="menu-link" href="nove.html" th:href="@{/popular}"
                                             >Топ фильмы</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="popular.html"
+                    <li class="menu-item"><a class="menu-link" href="popular.html" th:href="@{/favorite}"
                                              >Любимое</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="authors.html"
+                    <li class="menu-item"><a class="menu-link" href="authors.html" th:href="@{/actors}"
                                              >Актеры</a>
                     </li>
                 </ul>
@@ -98,6 +98,8 @@
                                 </strong>
                                 <div class="Card-description" th:text="${cinema.description}" th:href="@{/cinema_slug/} + ${cinema.name}">Автор
                                 </div>
+                            </div>
+                            <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#" th:href="@{/favorite/} + ${cinema.id}" data-refreshshow="genre" data-refreshoffset="10" data-refreshlimit="20" data-refreshid="1020">Добавить в избранное</a>
                             </div>
                         </div>
                     </div>

@@ -184,4 +184,21 @@ public class CinemaAPI {
 
         return data;
     }
+
+    public static String getFilmByKPID(Long cinemaId) throws ExecutionException, InterruptedException, IOException {
+        AsyncHttpClient client = new DefaultAsyncHttpClient();
+        String requestToServer = "https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&id=" + cinemaId;
+        //todo можно ли несколько
+
+        var response = client.prepare("GET", requestToServer)
+                .setHeader("X-API-KEY", DataAPI.API_KEY)
+                .execute();
+
+        String data = response.get().getResponseBody();
+        client.close();
+
+        System.out.println(data);
+
+        return data;
+    }
 }
