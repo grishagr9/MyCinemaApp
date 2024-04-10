@@ -105,6 +105,8 @@
                             <div class="Card-description" th:text="${cinema.description}">Автор
                             </div>
                         </div>
+                        <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#" th:href="@{/favorite/} + ${cinema.id}" data-refreshshow="genre" data-refreshoffset="10" data-refreshlimit="20" data-refreshid="1020">Добавить в избранное</a>
+                        </div>
                     </div>
                 </div>
                 <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#" data-refreshshow="genre" data-refreshoffset="10" data-refreshlimit="20" data-refreshid="1020">Показать еще</a>

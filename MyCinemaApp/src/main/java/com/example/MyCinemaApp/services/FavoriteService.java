@@ -30,6 +30,10 @@ public class FavoriteService {
     private final CinemaRepository cinemaRepository;
     private final FavoriteRepository favoriteRepository;
 
+    /**
+     * нахождение всех избранных фильмов у пользователя
+     * @return
+     */
     public List<CinemaNameDto> getAllCinemas() {
         String userHash = Data.JWTtoken;
         Consumer user = userRepository.findByHash(userHash);
@@ -54,7 +58,11 @@ public class FavoriteService {
         return favoriteCinemas;
     }
 
-
+    /**
+     * entity -> data transfer object
+     * @param cinema entity
+     * @return dto
+     */
     private CinemaNameDto toDTO(Cinema cinema) {
         CinemaNameDto result = new CinemaNameDto();
 
@@ -71,12 +79,19 @@ public class FavoriteService {
         return result;
     }
 
+    /**
+     * добавление фильма в избраное у пользователя
+     * @param cinemaId id фильма на кинопоиске
+     */
     public void addFavorite(Long cinemaId) {
         Cinema cinema = cinemaRepository.findByKp_id(cinemaId);
         if(cinema == null) {
             CinemaNameDto nameCinema = null;
             try {
-                nameCinema = ParserJSON.parseOneFilm(CinemaAPI.getFilmByKPID(cinemaId)).get(0);
+                var list = ParserJSON.parse(CinemaAPI.getFilmByKPID(cinemaId));
+                if(!list.isEmpty()){
+                    nameCinema = list.get(0);
+                }
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             } catch (ExecutionException e) {
@@ -87,14 +102,14 @@ public class FavoriteService {
                 throw new RuntimeException(e);
             }
             if(nameCinema != null) {
-                Cinema newCinema = new Cinema();
-                newCinema.setName(nameCinema.getName());
-                newCinema.setKp_id(nameCinema.getId());
-                newCinema.setDescription(nameCinema.getDescription());
-                newCinema.setPosterPhoto(nameCinema.getPosterPhoto());
-                newCinema.setInternalRating(nameCinema.getInternalRating());
-                newCinema.setDescription(nameCinema.getDescription());
-                cinemaRepository.save(newCinema);
+                cinema = new Cinema();
+                cinema.setName(nameCinema.getName());
+                cinema.setKp_id(nameCinema.getId());
+                cinema.setDescription(nameCinema.getDescription());
+                cinema.setPosterPhoto(nameCinema.getPosterPhoto());
+                cinema.setInternalRating(nameCinema.getInternalRating());
+                cinema.setDescription(nameCinema.getDescription().substring(0,255));
+                cinemaRepository.save(cinema);
             }
         }
         Consumer user = userRepository.findByHash(Data.JWTtoken);
@@ -115,7 +130,12 @@ public class FavoriteService {
         log.info("Добавлен любимый фильм " + cinemaId + " " + cinema.getName());
     }
 
-    public boolean containsCinema(Long cinemaId) {
+    /**
+     * проверка есть ли данный фильм у данного пользователя
+     * @param kp_id id фильма на кинопоиске
+     * @return имеется фильм?
+     */
+    public boolean containsCinema(Long kp_id) {
         Consumer user = userRepository.findByHash(Data.JWTtoken);
         if(user == null){
             Consumer newUser = new Consumer();
@@ -123,11 +143,15 @@ public class FavoriteService {
             newUser.setName("Alice");
             userRepository.save(newUser);
 
-            user = newUser;
             return false;
         }
 
+        Cinema cinema = cinemaRepository.findByKp_id(kp_id);
+        long cinema_id = 0;
+        if(cinema != null){
+            cinema_id = cinema.getId();
+        }
 
-        return !favoriteRepository.findByUserIdAndCinemaId(Long.valueOf(user.getId()), cinemaId).isEmpty();
+        return !favoriteRepository.findByUserIdAndCinemaId(Long.valueOf(user.getId()), cinema_id).isEmpty();
     }
 }

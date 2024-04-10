@@ -45,9 +45,9 @@ public class FavoritePageController {
                             Model model)  {
         model.addAttribute("favoriteCinema", favoriteCinema());
         if(favoriteService.containsCinema(cinemaId)){
-            return "favorite";
+            return "redirect:/favorite";
         }
         favoriteService.addFavorite(cinemaId);
-        return "favorite";
+        return "redirect:/favorite";
     }
 }
